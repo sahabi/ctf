@@ -1,0 +1,168 @@
+*** This is NuSMV 2.6.0 (compiled on Wed Oct 14 15:36:56 2015)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+-- specification  G !(OBSTACLE = 1 & AGENT = 6)  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    OBSTACLE = 1
+    PREV_OBSTACLE = 1
+    AGENT = 3
+    GRAB = FALSE
+    DROP = FALSE
+    CAPTURED = FALSE
+  -> State: 1.2 <-
+    OBSTACLE = 2
+  -> State: 1.3 <-
+    OBSTACLE = 3
+    PREV_OBSTACLE = 2
+    AGENT = 6
+  -> State: 1.4 <-
+    OBSTACLE = 4
+    PREV_OBSTACLE = 3
+    AGENT = 9
+  -> State: 1.5 <-
+    OBSTACLE = 5
+    PREV_OBSTACLE = 4
+  -> State: 1.6 <-
+    OBSTACLE = 4
+    PREV_OBSTACLE = 5
+  -> State: 1.7 <-
+    OBSTACLE = 3
+    PREV_OBSTACLE = 4
+  -> State: 1.8 <-
+    OBSTACLE = 2
+    PREV_OBSTACLE = 3
+    GRAB = TRUE
+  -> State: 1.9 <-
+    OBSTACLE = 1
+    PREV_OBSTACLE = 2
+    AGENT = 6
+  -> State: 1.10 <-
+    OBSTACLE = 2
+    PREV_OBSTACLE = 1
+    AGENT = 3
+  -> State: 1.11 <-
+    OBSTACLE = 3
+    PREV_OBSTACLE = 2
+    AGENT = 2
+  -> State: 1.12 <-
+    OBSTACLE = 4
+    PREV_OBSTACLE = 3
+    AGENT = 1
+  -> State: 1.13 <-
+    OBSTACLE = 5
+    PREV_OBSTACLE = 4
+    DROP = TRUE
+  -> State: 1.14 <-
+    OBSTACLE = 4
+    PREV_OBSTACLE = 5
+    GRAB = FALSE
+    DROP = FALSE
+    CAPTURED = TRUE
+  -> State: 1.15 <-
+    OBSTACLE = 3
+    PREV_OBSTACLE = 4
+    AGENT = 2
+    CAPTURED = FALSE
+  -> State: 1.16 <-
+    OBSTACLE = 2
+    PREV_OBSTACLE = 3
+    AGENT = 3
+  -> State: 1.17 <-
+    OBSTACLE = 1
+    PREV_OBSTACLE = 2
+    AGENT = 6
+  -- Loop starts here
+  -> State: 1.18 <-
+    OBSTACLE = 2
+    PREV_OBSTACLE = 1
+    AGENT = 9
+  -> State: 1.19 <-
+    OBSTACLE = 3
+    PREV_OBSTACLE = 2
+  -> State: 1.20 <-
+    OBSTACLE = 4
+    PREV_OBSTACLE = 3
+  -> State: 1.21 <-
+    OBSTACLE = 5
+    PREV_OBSTACLE = 4
+  -> State: 1.22 <-
+    OBSTACLE = 4
+    PREV_OBSTACLE = 5
+  -> State: 1.23 <-
+    OBSTACLE = 3
+    PREV_OBSTACLE = 4
+  -> State: 1.24 <-
+    OBSTACLE = 2
+    PREV_OBSTACLE = 3
+  -> State: 1.25 <-
+    OBSTACLE = 1
+    PREV_OBSTACLE = 2
+  -> State: 1.26 <-
+    OBSTACLE = 2
+    PREV_OBSTACLE = 1
+-- specification  G !(OBSTACLE = 2 & AGENT = 5)  is true
+-- specification  G !(OBSTACLE = 3 & AGENT = 8)  is true
+-- specification  G !(OBSTACLE = 4 & AGENT = 11)  is true
+-- specification  G !(OBSTACLE = 5 & AGENT = 12)  is true
+-- specification  G ( F CAPTURED)  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 2.1 <-
+    OBSTACLE = 1
+    PREV_OBSTACLE = 1
+    AGENT = 3
+    GRAB = FALSE
+    DROP = FALSE
+    CAPTURED = FALSE
+  -> State: 2.2 <-
+    OBSTACLE = 2
+  -> State: 2.3 <-
+    OBSTACLE = 3
+    PREV_OBSTACLE = 2
+    AGENT = 6
+  -- Loop starts here
+  -> State: 2.4 <-
+    OBSTACLE = 4
+    PREV_OBSTACLE = 3
+    AGENT = 9
+  -> State: 2.5 <-
+    OBSTACLE = 5
+    PREV_OBSTACLE = 4
+  -> State: 2.6 <-
+    OBSTACLE = 4
+    PREV_OBSTACLE = 5
+  -> State: 2.7 <-
+    OBSTACLE = 3
+    PREV_OBSTACLE = 4
+  -> State: 2.8 <-
+    OBSTACLE = 2
+    PREV_OBSTACLE = 3
+  -> State: 2.9 <-
+    OBSTACLE = 1
+    PREV_OBSTACLE = 2
+  -> State: 2.10 <-
+    OBSTACLE = 2
+    PREV_OBSTACLE = 1
+  -> State: 2.11 <-
+    OBSTACLE = 3
+    PREV_OBSTACLE = 2
+  -> State: 2.12 <-
+    OBSTACLE = 4
+    PREV_OBSTACLE = 3

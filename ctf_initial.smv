@@ -1,0 +1,117 @@
+MODULE main
+  VAR
+
+    OBSTACLE : {1,2,3,4,5};   -- location of the obstacle
+    PREV_OBSTACLE : {1,2,3,4,5}; -- previous location of the obstacle       
+    AGENT : {1,2,3,4,5,6,7,8,9,10,11,12}; -- location of the agent
+    GRAB : boolean;  -- True if the flag is grabbed and false otherwise
+    DROP : boolean;  -- True if the flag is being dropped and false otherwise
+    CAPTURED : boolean; -- True if the flag is captured
+    --COLLISION : boolean; -- True if agent and obstacle collide
+
+  ASSIGN
+
+    init(CAPTURED) := FALSE;
+    init(DROP) := FALSE;
+    init(AGENT) := 3;
+    init(OBSTACLE) := 1;
+    init(PREV_OBSTACLE) := 1;
+    init(GRAB) := FALSE;
+    --init(COLLISION) := FALSE;
+
+    -- modeling the movement of the obstacle
+    next(OBSTACLE) :=
+      case
+        OBSTACLE = 1 : 2;
+        OBSTACLE = 2 & PREV_OBSTACLE = 1 : 3;
+        OBSTACLE = 3 & PREV_OBSTACLE = 2: 4;
+        OBSTACLE = 4 & PREV_OBSTACLE = 3 : 5;
+        OBSTACLE = 5 : 4;
+        OBSTACLE = 4 & PREV_OBSTACLE = 5 : 3;
+        OBSTACLE = 3 & PREV_OBSTACLE = 4 : 2;
+        OBSTACLE = 2 & PREV_OBSTACLE = 3 : 1;
+        TRUE : OBSTACLE;      
+      esac;
+
+    -- using this variable as a memory for the obstacle's movement
+    -- it is needed to determine the heading direction of the obstacle
+    next(PREV_OBSTACLE) :=
+      case
+        OBSTACLE = 1 : 1;
+        OBSTACLE = 2 : 2;
+        OBSTACLE = 3 : 3;
+        OBSTACLE = 4 : 4;
+        OBSTACLE = 5 : 5;
+        TRUE : PREV_OBSTACLE;
+      esac;
+
+
+    -- modeling the flag grabing action 
+    next(GRAB) :=
+      case
+        GRAB = TRUE & DROP = FALSE : TRUE;
+        GRAB = TRUE & DROP = TRUE : FALSE;
+        GRAB = FALSE & AGENT != 9 : FALSE;
+        GRAB = FALSE & AGENT = 9 : {FALSE, TRUE};
+        TRUE : GRAB;
+      esac;
+
+    -- modeling the flag dropping action
+    next(DROP) :=
+      case
+        DROP = FALSE & GRAB = FALSE : FALSE;
+        DROP = FALSE & GRAB = TRUE & AGENT = 1 : TRUE;
+        DROP = FALSE & GRAB = TRUE & AGENT != 1 : FALSE;
+        DROP = TRUE : FALSE;
+        TRUE : DROP;
+      esac;
+
+    -- modeling the rules for the flag being considered as captured (rules of the game)
+    next(CAPTURED) :=
+      case
+        CAPTURED = TRUE : FALSE;
+        CAPTURED = FALSE & DROP = TRUE & AGENT = 1 : TRUE;
+        CAPTURED = FALSE & (DROP = FALSE | AGENT != 1) : FALSE;
+        TRUE : CAPTURED;
+      esac;
+
+    -- modeling the agent movement in the grid to be able to capture the flag
+    next(AGENT) :=
+      case
+        AGENT = 1 & GRAB = FALSE : 2;
+        AGENT = 2 & GRAB = FALSE : 3;
+        AGENT = 3 & OBSTACLE = 1  & GRAB = FALSE : 3;
+        AGENT = 3 & OBSTACLE != 1  & GRAB = FALSE : 6;
+        AGENT = 6 & GRAB = FALSE : 9;
+        AGENT = 9 & (OBSTACLE = 1 | GRAB = FALSE) : 9;
+        AGENT = 9 & OBSTACLE != 1 & GRAB = TRUE : 6;
+        AGENT = 6 & GRAB = TRUE : 3;
+        AGENT = 3 & GRAB = TRUE : 2;
+        AGENT = 2 & GRAB = TRUE : 1;
+        AGENT = 1 & GRAB = TRUE : 1;
+        TRUE : AGENT;
+      esac;
+
+--    next(COLLISION) :=
+--      case
+--        COLLISION = FALSE & OBSTACLE = 1 & AGENT = 6 : TRUE;
+--        COLLISION = FALSE & OBSTACLE = 2 & AGENT = 5 : TRUE;
+--        COLLISION = FALSE & OBSTACLE = 3 & AGENT = 8 : TRUE;
+--        COLLISION = FALSE & OBSTACLE = 4 & AGENT = 11 : TRUE;
+--        COLLISION = FALSE & OBSTACLE = 5 & AGENT = 12 : TRUE;
+--        COLLISION = TRUE : TRUE;
+--        TRUE : COLLISION;
+--      esac; 
+
+-- verifying the agent's is ability to capture the flag infinitely often
+  LTLSPEC G(F CAPTURED)
+
+-- verifying no collisions
+  LTLSPEC G ! (OBSTACLE = 1 & AGENT = 6)
+  LTLSPEC G ! (OBSTACLE = 2 & AGENT = 5)
+  LTLSPEC G ! (OBSTACLE = 3 & AGENT = 8)
+  LTLSPEC G ! (OBSTACLE = 4 & AGENT = 11)
+  LTLSPEC G ! (OBSTACLE = 5 & AGENT = 12)
+
+-- or simply (if collision is modeled)
+--  LTLSPEC G (! COLLISION)
